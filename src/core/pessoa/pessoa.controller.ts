@@ -41,9 +41,9 @@ export class PessoaController {
     @Query('filter', ParseFindAllFilter)
     filter: IFindAllFilter | IFindAllFilter[],
   ): Promise<IResponse<Pessoa[]>> {
-    const data = await this.pessoaService.findAll(page, size, order, filter);
+    const {data, count} = await this.pessoaService.findAll(page, size, order, filter);
 
-    return new HttpResponse<Pessoa[]>(data);
+    return new HttpResponse<Pessoa[]>(data, undefined, count);
   }
 
   @Get(':id')

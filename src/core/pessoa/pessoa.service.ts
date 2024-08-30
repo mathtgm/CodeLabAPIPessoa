@@ -22,6 +22,7 @@ import { ExportPdfService } from '../../shared/services/export-pdf.service';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { Pessoa } from './entities/pessoa.entity';
+import { IResponse } from 'src/shared/interfaces/response.interface';
 
 @Injectable()
 export class PessoaService {
@@ -57,12 +58,11 @@ export class PessoaService {
     size: number,
     order: IFindAllOrder,
     filter?: IFindAllFilter | IFindAllFilter[],
-  ): Promise<Pessoa[]> {
-    page--;
+  ): Promise<IResponse<Pessoa[]>> {
 
     const where = handleFilter(filter);
 
-    return await this.repository.find({
+    const [data, count] = await this.repository.findAndCount({
       loadEagerRelations: false,
       order: {
         [order.column]: order.sort,
@@ -71,6 +71,8 @@ export class PessoaService {
       skip: size * page,
       take: size,
     });
+
+    return { message: '', data, count }
   }
 
   async findOne(id: number): Promise<Pessoa> {
