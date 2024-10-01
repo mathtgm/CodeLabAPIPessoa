@@ -22,7 +22,7 @@ import { ExportPdfService } from '../../shared/services/export-pdf.service';
 import { CreatePessoaDto } from './dto/create-pessoa.dto';
 import { UpdatePessoaDto } from './dto/update-pessoa.dto';
 import { Pessoa } from './entities/pessoa.entity';
-import { IResponse } from 'src/shared/interfaces/response.interface';
+import { IResponse } from '../../shared/interfaces/response.interface';
 
 @Injectable()
 export class PessoaService {
@@ -190,7 +190,8 @@ export class PessoaService {
         HttpStatus.INTERNAL_SERVER_ERROR,
       );
     }
-  }
+  };
+  
   private async getUsuarioFromGrpc(id: number): Promise<IUsuario> {
     try {
       return (await lastValueFrom(
